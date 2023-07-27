@@ -1,0 +1,27 @@
+<div class="jumbotron mt-3 shadow-lg">
+    <article class="media content-section shadow ">
+        <div class="media-body">
+            <div class="">
+                <div class="d-flex justify-content-between">
+                    <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-posts' post.author.username %}">
+                        <h3>{{ post.author }}</h3>
+                    </a>
+                </div>
+                <div>
+                    <small class="text-muted">{{ post.date_posted }}</small>
+                </div>
+                <hr>
+                {% if post.author == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                           href="{% url 'post-update' post.id %}">Update</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1"
+                           href="{% url 'post-delete' post.id %}">Delete</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2>{{ post.title }}</h2>
+            <p class="article-content">{{ post.content }}</p>
+        </div>
+    </article>
+</div>
