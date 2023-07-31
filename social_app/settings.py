@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'likes.apps.LikesConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'fontawesomefree',
