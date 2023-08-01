@@ -2,10 +2,11 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import UpdateView
 
+from blog.models import Post
 from .forms import UserRegisterForm
 from .models import Profile
 
@@ -26,8 +27,11 @@ def register(request):
 def view_user(request, username: str):
     _create_profile_if_missing(User.objects.get(username=username))
     profile = Profile.objects.get(user__username=username)
+    user = get_object_or_404(User, username=profile.user.username)
+    user_posts = Post.objects.filter(author=user).order_by('-date_posted')
     context = {
-        "profile": profile
+        "profile": profile,
+        "posts": user_posts
     }
 
     return render(request, 'users/profile_page.html', context=context)
@@ -36,7 +40,7 @@ def view_user(request, username: str):
 def update_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -71,7 +75,7 @@ def update_profile(request):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['bio']
+        fields = ['bio', 'image']
 
 
 class UserForm(forms.ModelForm):
