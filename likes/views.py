@@ -21,8 +21,9 @@ def like_post(request):
         except Post.DoesNotExist:
             return HttpResponse("Invalid user_id. User does not exist.")
 
-        if Like.objects.filter(post=post, author=user).exists():
-            Like.objects.filter(post=post, author=user).delete()
+        user_liked = Like.objects.filter(post=post, author=user)
+        if user_liked.exists():
+            user_liked.delete()
             return redirect(request.META['HTTP_REFERER'])
 
         Like.objects.create(post=post, author=user)
