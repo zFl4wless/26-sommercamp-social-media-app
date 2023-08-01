@@ -3,10 +3,6 @@
 {% block content %}
     {% for post in posts %}
         {% include "blog/post.html" with post=post %}
-        {% include "blog/post.html" with post=post %}
-        {% include "blog/post.html" with post=post %}
-        {% include "blog/post.html" with post=post %}
-        {% include "blog/post.html" with post=post %}
     {% endfor %}
     {% include "pageination.html" %}
 {% endblock content %}
