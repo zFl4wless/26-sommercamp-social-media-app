@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        h1{{ profile.user.login }}
+    <div class="py-5">
+        <h1>{{ profile.user.username }}</h1>
         <p>
             {{ profile.bio }}
         </p>
+        {% if profile.user == user %}
+            <div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'profile-update' profile.id %}">Update</a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
