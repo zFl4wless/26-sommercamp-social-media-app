@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        h1{{ profile.user.login }}
+        <p>
+            {{ profile.bio }}
+        </p>
+    </div>
+{% endblock %}

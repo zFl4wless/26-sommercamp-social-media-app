@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from .forms import UserRegisterForm
+from .models import Profile
 
 
 def register(request):
@@ -14,3 +15,12 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def view_user(request, username):
+    profile = Profile.objects.get(user_username=username)
+    context = {
+        "profile": profile
+    }
+
+    return render(request, "users/profile_page.html", context=context)
