@@ -107,3 +107,5 @@ dmypy.json
 .pyre/
 
 media/uploads
+
+db.sqlite3
