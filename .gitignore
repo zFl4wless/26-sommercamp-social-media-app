@@ -105,3 +105,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+media/uploads
+
+db.sqlite3
