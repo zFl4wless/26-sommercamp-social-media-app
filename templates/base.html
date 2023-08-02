@@ -55,14 +55,25 @@
                 </a>
             {% endif %}
 
-            <!------{{ request.get_host }}/blog/search/-->
-            <form class="d-flex ms-auto" id="searchform" action="{% url 'search' %}" method="get" role="search">
-                <input class="me-1 form-control form-control-sm" name="q" type="text" value="{{ request.GET.q }}"
-                       placeholder="Search Here..."/>
-                <button type="button" onclick="searchform.submit()" class="text-white my-color btn btn-sm btn-primary">
-                    <i class="fa fa-search"></i>
-                </button>
-            </form>
+                <!------{{ request.get_host }}/blog/search/-->
+                <form class="d-flex ms-auto" id="searchform" action="{% url 'search' %}" method="get" role="search">
+                    <input class="me-1 form-control form-control-sm" name="q" type="text" value="{{ request.GET.q }}"
+                           placeholder="Search Here..."/>
+                    <button type="button" onclick="searchform.submit()" class="text-white my-color btn btn-sm btn-primary">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+                <div class="dropdown ms-5">
+                  <button class="bg-primary border-0 px-2 rounded-5 p-1 text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <img width="32px" height="32px" src="/media/{{ user.profile.image }}" alt="" class="rounded-circle">
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </div>
         </div>
     </div>
 </nav>
