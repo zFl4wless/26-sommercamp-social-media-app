@@ -3,16 +3,17 @@
 <div class="jumbotron mt-3 shadow-lg">
     <article class="media content-section shadow rounded-3">
         <div class="media-body">
-            <div class="">
-                <div class="d-flex justify-content-between">
-                    <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-profile' post.author.username %}">
-                        <h3>{{ post.author }}</h3>
-                    </a>
-                </div>
+            <div class="d-flex justify-content-between">
                 <div>
-                    <small class="text-muted">{{ post.date_posted }}</small>
+                    <div class="d-flex justify-content-between">
+                        <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-profile' post.author.username %}">
+                            <h3>{{ post.author }}</h3>
+                        </a>
+                    </div>
+                    <div>
+                        <small class="text-muted">{{ post.date_posted }}</small>
+                    </div>
                 </div>
-                <hr>
                 {% if post.author == user %}
                     <div>
                         <a class="btn btn-secondary btn-sm mt-1 mb-1"
@@ -23,10 +24,12 @@
                 {% endif %}
             </div>
 
+            <hr>
+
             <h2>{{ post.title }}</h2>
             <p class="article-content">{{ post.content }}</p>
             <div class="rounded-3">
-                <img src="/media/{{ post.image }}" alt="{{ post.image }}">
+                <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="mw-100">
             </div>
 
             <hr/>
@@ -47,30 +50,42 @@
                 {% endif %}
             </div>
 
-            <div class="comment-section d-flex justify-content-between align-items-center">
+            <div>
+                <legend class="border-top my-3">
+                    Kommentieren
+                </legend>
+                <div class="d-flex flex-column gap-2 my-3">
+                    {% for comment in post|get_comments:post %}
+                        <div class="d-flex gap-3 bg-secondary p-3 rounded-2">
+                            <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
+                                 alt="Avatar of {{ comment.author.username }}"
+                                 class="rounded-circle border border-dark">
+                            <div class="text-white">
+                                <p class="text-white-50 m-0">{{ comment.date_posted }}</p>
+                                <p class="fw-bold">{{ comment.author.username }}</p>
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
 
-                {% for comment in post|get_comments:post %}
-                    {{ comment.author }}:{{ comment.content }}<br>{{ comment.date_posted }}<br>
-                {% endfor %}
-
-                <hr/>
                 {% if user.is_authenticated %}
                     <fieldset class="form-group">
 
-                        <form action="{% url 'send-comment' %}" method="POST">
-
+                        <form action="{% url 'send-comment' %}" method="POST" class="d-flex align-items-center gap-2">
                             {% csrf_token %}
 
-                            <legend class="border-bottom mb-4">
-                                Kommentieren
-                            </legend>
+                            <label for="content">
+                                <input type="text" id="content" name="content" placeholder="Comment..."
+                                       class="rounded-1">
+                            </label>
 
-                            <input type="text" id="content" name="content">
                             <input type="hidden" name="post_id" value="{{ post.id }}">
                             <input type="hidden" name="post_author" value="{{ post.author.id }}">
 
                             <div class="form-group">
-                                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-upload"></i>Send
+                                <button class="btn btn-outline-primary btn-sm" type="submit">
+                                    <i class="fas fa-upload"></i> Send
                                 </button>
                             </div>
                         </form>
