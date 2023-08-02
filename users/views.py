@@ -53,25 +53,6 @@ def update_profile(request):
     return render(request, 'users/profile_form.html', {'profile_form': profile_form, 'user_form': user_form})
 
 
-"""class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Profile
-    template_name = 'users/profile_form.html'
-    fields = ['bio']
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def test_func(self):
-        profile = self.get_object()
-        if self.request.user == profile.user:
-            return True
-        return False
-
-    def get_success_url(self):
-        return reverse("user-profile", args=[self.request.user.username])"""
-
-
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -87,3 +68,4 @@ class UserForm(forms.ModelForm):
 def _create_profile_if_missing(user) -> None:
     if not (Profile.objects.filter(user=user).exists()):
         Profile.objects.create(user=user)
+
