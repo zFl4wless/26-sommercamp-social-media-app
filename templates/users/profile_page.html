@@ -2,8 +2,8 @@
 {% load custom_tags %}
 
 {% block content %}
-    <div class="py-5">
-        <div class="d-flex align-items-end justify-content-between">
+    <div>
+        <div class="d-flex justify-content-between">
             <div class="d-inline-flex flex-column align-items-center">
                 <img width="240px" height="240px" class="rounded-circle border border-2 border-secondary"
                      src="{{ profile.image.url }}" alt="User Avatar">
@@ -12,7 +12,7 @@
             </div>
             {% if profile.user == user %}
                 <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'profile-update' %}">Update</a>
+                    <a class="btn btn-secondary" href="{% url 'profile-update' %}">Update Profile</a>
                 </div>
             {% endif %}
         </div>
