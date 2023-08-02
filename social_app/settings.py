@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'likes.apps.LikesConfig',
+    'comment.apps.CommentConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'fontawesomefree',

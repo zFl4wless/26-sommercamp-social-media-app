@@ -1,3 +1,4 @@
+{% load crispy_forms_filters %}
 {% load custom_tags %}
 <div class="jumbotron mt-3 shadow-lg">
     <article class="media content-section shadow ">
@@ -26,6 +27,12 @@
             <p class="article-content">{{ post.content }}</p>
             <img src="/media/{{ post.image }}" alt="{{ post.image }}">
 
+
+            Form:
+            {% if comment %}
+                Form exists
+            {% endif %}
+
             <hr/>
 
             <div class="d-flex justify-content-between align-items-center">
@@ -40,6 +47,34 @@
                         <i class="fa-regular fa-heart {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
                     </button>
                 </form>
+            </div>
+
+            <div class="comment-section d-flex justify-content-between align-items-center">
+
+
+
+                    <fieldset class="form-group">
+
+                        <form action="{% url 'send-comment' %}" method="POST">
+
+                        {% csrf_token %}
+
+                        <legend class="border-bottom mb-4">
+                            Comment
+                        </legend>
+
+                        <input type="text" id="content" name="content">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" name="post_author" value="{{ post.author.id }}">
+
+                        </form>
+
+                    </fieldset>
+
+                    <div class="form-group">
+                        <button class="btn btn-outline-primary" type="submit"><i class="fas fa-upload"></i>Send</button>
+                    </div>
+
             </div>
         </div>
     </article>
