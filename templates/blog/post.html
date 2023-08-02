@@ -76,8 +76,9 @@
                             {% csrf_token %}
 
                             <label for="content">
-                                <input type="text" id="content" name="content" placeholder="Comment..."
-                                       class="rounded-1">
+                                <textarea type="text" id="content" name="content" placeholder="Comment..."
+                                          class="border-0 border-bottom border-dark"
+                                          style="outline: none !important;" rows="2" cols="80"></textarea>
                             </label>
 
                             <input type="hidden" name="post_id" value="{{ post.id }}">
