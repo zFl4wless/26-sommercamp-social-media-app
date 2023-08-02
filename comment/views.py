@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from blog.models import Post
 from likes.models import Like
@@ -25,7 +25,6 @@ def send_comment(request):
 
         comment.save()
 
-    else:
 
 
 
@@ -35,4 +34,4 @@ def send_comment(request):
         'comments': Comment.objects.all(),
     }
 
-    return render(request, 'blog/home.html', context=context)
+    return redirect('/')

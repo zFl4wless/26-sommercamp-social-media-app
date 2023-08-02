@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if comment_form %}
-        Form Exists
-    {% endif %}
     {% for post in posts %}
-        {% include "blog/post.html" with post=post comment=comment_form %}
+        {% include "blog/post.html" with post=post %}
     {% endfor %}
     {% include "pageination.html" %}
 {% endblock content %}

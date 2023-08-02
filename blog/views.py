@@ -11,7 +11,6 @@ from django.views.generic import (
 )
 
 from comment.models import Comment
-from comment.views import CommentForm
 from likes.models import Like
 from .models import Post
 
@@ -20,8 +19,7 @@ def home(request):
     context = {
         'posts': Post.objects.all(),
         'likes': Like.objects.all(),
-        'comments': Comment.objects.all(),
-        #'comment_form': CommentForm(initial=Comment())
+        'comments': Comment.objects.all()
     }
 
     return render(request, 'blog/home.html', context)
