@@ -51,7 +51,7 @@
 
                 {% for comment in post|get_comments:post %}
                     {{ comment.author }}:{{ comment.content }}<br>{{ comment.date_posted }}<br>
-                {%  endfor %}
+                {% endfor %}
 
                 <hr/>
                 {% if user.is_authenticated %}
@@ -70,7 +70,8 @@
                             <input type="hidden" name="post_author" value="{{ post.author.id }}">
 
                             <div class="form-group">
-                                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-upload"></i>Send</button>
+                                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-upload"></i>Send
+                                </button>
                             </div>
                         </form>
 
