@@ -1,3 +1,4 @@
+{% load crispy_forms_filters %}
 {% load custom_tags %}
 <div class="jumbotron mt-3 shadow-lg">
     <article class="media content-section shadow ">
@@ -31,15 +32,48 @@
             <div class="d-flex justify-content-between align-items-center">
                 <p class="m-0 py-1">Likes: {{ post.like_set.count }}</p>
 
-                <form action="/like-post" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="post_id" value="{{ post.id }}">
-                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                {% if user.username %}
+                    <form action="/like-post" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
 
-                    <button class="bg-transparent border-0" type="submit">
-                        <i class="fa-regular fa-heart {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
-                    </button>
-                </form>
+                        <button class="bg-transparent border-0" type="submit">
+                            <i class="fa-regular fa-heart {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="comment-section d-flex justify-content-between align-items-center">
+
+                {% for comment in post|get_comments:post %}
+                    {{ comment.author }}:{{ comment.content }}<br>{{ comment.date_posted }}<br>
+                {%  endfor %}
+
+                <hr/>
+                {% if user.is_authenticated %}
+                    <fieldset class="form-group">
+
+                        <form action="{% url 'send-comment' %}" method="POST">
+
+                            {% csrf_token %}
+
+                            <legend class="border-bottom mb-4">
+                                Kommentieren
+                            </legend>
+
+                            <input type="text" id="content" name="content">
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <input type="hidden" name="post_author" value="{{ post.author.id }}">
+
+                            <div class="form-group">
+                                <button class="btn btn-outline-primary" type="submit"><i class="fas fa-upload"></i>Send</button>
+                            </div>
+                        </form>
+
+                    </fieldset>
+                {% endif %}
             </div>
         </div>
     </article>

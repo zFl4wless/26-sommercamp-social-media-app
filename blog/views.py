@@ -10,6 +10,7 @@ from django.views.generic import (
     DeleteView
 )
 
+from comment.models import Comment
 from likes.models import Like
 from .models import Post
 
@@ -17,8 +18,10 @@ from .models import Post
 def home(request):
     context = {
         'posts': Post.objects.all(),
-        'likes': Like.objects.all()
+        'likes': Like.objects.all(),
+        'comments': Comment.objects.all()
     }
+
     return render(request, 'blog/home.html', context)
 
 
@@ -45,8 +48,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_form.html'
     fields = ['title', 'content', 'image']
-
-
 
     def form_valid(self, form):
         form.instance.author = self.request.user

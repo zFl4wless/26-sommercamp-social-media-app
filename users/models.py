@@ -5,8 +5,8 @@ from django.db import models
 
 class Profile(models.Model):
     image = models.ImageField(default='default.png', upload_to="uploads")
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
