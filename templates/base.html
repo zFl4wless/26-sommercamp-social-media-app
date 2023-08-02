@@ -39,6 +39,33 @@
                        placeholder="Search Posts..." style="width: 400px !important;"/>
                 <button type="button" onclick="searchform.submit()" class="position-absolute top-0 end-0 h-100 px-2 border-0 text-primary bg-transparent pe-3">
                     <i class="fa-solid fa-magnifying-glass"></i>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user-posts' user %}" class="btn text-white m-2">
+                    <i class="fa-solid fa-crown"></i> My Posts
+                </a>
+                <a href="{% url 'post-create' %} " class="btn text-white m-2">
+                    <i class="fas fa-user-edit"></i> New Post
+                </a>
+                <a href="{% url 'user-profile' user.username %}" class="btn text-white m-2">
+                    <i class="fa-solid fa-hippo"></i> {{ user.username }}
+                </a>
+                <a href="{% url 'logout' %} " class="btn text-white m-2">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            {% else %}
+                <a href="{% url 'login' %} " class="btn text-white m-2">
+                    <i class="fas fa-user-tie"></i> Login
+                </a>
+                <a href="{% url 'register' %} " class="btn text-white m-2">
+                    <i class="fas fa-sign-in-alt"></i> Sign Up
+                </a>
+            {% endif %}
+
+            <form class="d-flex ms-auto" id="searchform" action="{% url 'search' %}" method="get" role="search">
+                <input class="me-1 form-control form-control-sm" name="q" type="text" value="{{ request.GET.q }}"
+                       placeholder="Search Here..."/>
+                <button type="button" onclick="searchform.submit()" class="text-white my-color btn btn-sm btn-primary">
+                    <i class="fa fa-search"></i>
                 </button>
                     </div>
                 </form>
