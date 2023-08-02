@@ -33,7 +33,11 @@
             </div>
 
             <hr/>
-
+            <div class="rounded-3">
+                {% for tag in post|get_tags:post %}
+                    <span class="badge badge-primary"><li> {{ tag }} </li></span>
+                {% endfor %}
+            </div>
             <div class="d-flex justify-content-between align-items-center">
                 <p class="m-0 py-1">Likes: {{ post.like_set.count }}</p>
 

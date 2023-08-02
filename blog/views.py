@@ -31,7 +31,8 @@ def search(request):
     query = request.GET.get('q')
 
     result = Post.objects.filter(
-        Q(title__icontains=query) | Q(author__username__icontains=query) | Q(content__icontains=query))
+        Q(title__icontains=query) | Q(author__username__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)).distinct()
+
     context = {'posts': result}
     return render(request, template, context)
 
@@ -47,7 +48,7 @@ class PostListView(ListView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_form.html'
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'image', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

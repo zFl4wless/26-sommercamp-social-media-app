@@ -2,6 +2,9 @@ import datetime
 import time
 
 from django import template
+from taggit.models import Tag
+
+from blog.models import Post
 
 register = template.Library()
 
@@ -12,10 +15,15 @@ def user_liked_post(post, user_id):
 
 
 @register.filter
-def get_comments(_test, post):
+def get_comments(_, post):
     return post.comment_set.filter(post_id=post.id)
 
 
 @register.filter
-def formatted_join_date(test, profile):
+def formatted_join_date(_, profile):
     return profile.user.date_joined.strftime('%d.%m.%Y')
+
+
+@register.filter
+def get_tags(_, post):
+    return Tag.objects.filter(post=post.id)
