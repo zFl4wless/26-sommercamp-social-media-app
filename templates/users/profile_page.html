@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block content %}
     <div class="py-5">
     <div class="d-flex align-items-end justify-content-between">
     <div class="d-inline-flex flex-column align-items-center">
-        <img width="240px" height="240px" class="rounded-circle" src="{{ profile.image.url }}">
+        <img width="240px" height="240px" class="rounded-circle border border-2 border-secondary" src="{{ profile.image.url }}" alt="User Avatar">
         <h1 class="text-white mt-3" >{{ profile.user.username }}</h1>
+        <p class="text-white-50 fs-6">{{ post|formatted_join_date:profile }}</p>
     </div>
         {% if profile.user == user %}
             <div>
