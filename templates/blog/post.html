@@ -1,7 +1,7 @@
 {% load crispy_forms_filters %}
 {% load custom_tags %}
 <div class="jumbotron mt-3 shadow-lg">
-    <article class="media content-section shadow ">
+    <article class="media content-section shadow rounded-3">
         <div class="media-body">
             <div class="">
                 <div class="d-flex justify-content-between">
@@ -25,7 +25,9 @@
 
             <h2>{{ post.title }}</h2>
             <p class="article-content">{{ post.content }}</p>
-            <img src="/media/{{ post.image }}" alt="{{ post.image }}">
+            <div class="rounded-3">
+                <img src="/media/{{ post.image }}" alt="{{ post.image }}">
+            </div>
 
             <hr/>
 
