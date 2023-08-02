@@ -19,61 +19,65 @@
     {% endif %}
 
 </head>
-<body class="bg-dark">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand font-weight-bold" href="{% url 'blog-home' %}">
-            <i class="fa-solid fa-hat-wizard"></i>
-            #programmable
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <a class="btn text-white m-2" href="{% url 'blog-home' %}">
-                <i class="fas fa-home"></i> Home
+    <body class="bg-dark">Here
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary fixed-top">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand font-weight-bold" href="{% url 'blog-home' %}">
+                <i class="fa-solid fa-hat-wizard"></i>
+                #programmable
             </a>
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'post-create' %} " class="btn text-white m-2">
-                    <i class="fas fa-user-edit"></i> New Post
-                </a>
-                <a href="{% url 'user-profile' user.username %}" class="btn text-white m-2">
-                    <i class="fa-solid fa-hippo"></i> {{ user.username }}
-                </a>
-                <a href="{% url 'logout' %} " class="btn text-white m-2">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            {% else %}
-                <a href="{% url 'login' %} " class="btn text-white m-2">
-                    <i class="fas fa-user-tie"></i> Login
-                </a>
-                <a href="{% url 'register' %} " class="btn text-white m-2">
-                    <i class="fas fa-sign-in-alt"></i> Sign Up
-                </a>
-            {% endif %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
                 <!------{{ request.get_host }}/blog/search/-->
-                <form class="d-flex ms-auto" id="searchform" action="{% url 'search' %}" method="get" role="search">
-                    <input class="me-1 form-control form-control-sm" name="q" type="text" value="{{ request.GET.q }}"
-                           placeholder="Search Here..."/>
-                    <button type="button" onclick="searchform.submit()" class="text-white my-color btn btn-sm btn-primary">
-                        <i class="fa fa-search"></i>
-                    </button>
+            <form class="d-none d-lg-flex" id="searchform" action="{% url 'search' %}" method="get" role="search">
+                <div class="position-relative">
+                <input class="me-1 form-control form-control-sm rounded-3 border-0 pe-5" name="q" type="text" value="{{ request.GET.q }}"
+                       placeholder="Search Posts..." style="width: 400px !important;"/>
+                <button type="button" onclick="searchform.submit()" class="position-absolute top-0 end-0 h-100 px-2 border-0 text-primary bg-transparent pe-3">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                    </div>
                 </form>
 
-                <div class="dropdown ms-5">
-                  <button class="bg-primary border-0 px-2 rounded-5 p-1 text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="align-items-center d-none d-lg-flex">
+                    <div>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'post-create' %} " class="btn bg-primary rounded-3 text-white m-2">
+                            <i class="fa-solid fa-pen-to-square"></i> New Post
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %} " class="btn text-white m-2">
+                            <i class="fas fa-user-tie"></i> Login
+                        </a>
+                        <a href="{% url 'register' %} " class="btn text-white m-2">
+                            <i class="fas fa-sign-in-alt"></i> Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+
+                {% if user.is_authenticated %}
+                <div class="dropdown ms-2 d-none d-lg-block">
+                  <button class="bg-primary border-0 px-2 rounded-3 p-1 text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <img width="32px" height="32px" src="/media/{{ user.profile.image }}" alt="" class="rounded-circle">
                   </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a href="{% url 'user-profile' user.username %}" class="dropdown-item">
+                            <i class="fa-solid fa-user me-2"></i> {{ user.username }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %} " class="dropdown-item">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </li>
                   </ul>
                 </div>
+                {% endif %}
+        </div>
         </div>
     </div>
 </nav>
