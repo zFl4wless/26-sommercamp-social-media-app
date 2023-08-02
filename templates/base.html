@@ -37,9 +37,6 @@
             </a>
 
             {% if user.is_authenticated %}
-                <a href="{% url 'user-posts' user %}" class="btn text-white m-2">
-                    <i class="fa-solid fa-crown"></i> My Posts
-                </a>
                 <a href="{% url 'post-create' %} " class="btn text-white m-2">
                     <i class="fas fa-user-edit"></i> New Post
                 </a>
