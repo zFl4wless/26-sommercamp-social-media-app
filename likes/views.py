@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 from blog.models import Post
 from likes.models import Like
