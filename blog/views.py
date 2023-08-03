@@ -85,3 +85,10 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'about.html', {'title': 'About'})
+
+
+def privacypolicy(request):
+    return render(request, 'privacy-policy.html', {'title': 'Privacy Policy'})
+
+def imprint(request):
+    return render(request, 'imprint.html', {'title': 'imprint'})
