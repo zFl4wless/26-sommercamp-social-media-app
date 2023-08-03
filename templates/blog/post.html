@@ -115,14 +115,6 @@
             <hr/>
 
             <div class="d-flex justify-content-between">
-                <div>
-                    {% for tag in post|get_tags:post %}
-                        <span class="badge bg-primary">
-                        {{ tag }}
-                    </span>
-                    {% endfor %}
-                </div>
-
                 <div class="d-flex gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="m-0 py-1">{{ post.like_set.count }}</p>
