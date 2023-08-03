@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from blog.models import Post
 from .models import Comment
@@ -43,3 +43,13 @@ def delete_comment(request):
 
     else:
         return redirect('/')
+
+def edit_comment(request):
+
+    comment_form = CommentForm()
+    return render(request, 'comment/update_comment.html', {"CommentForm": comment_form})
+
+class CommentForm:
+    class Meta:
+        model = Comment
+        fields = ['content']
