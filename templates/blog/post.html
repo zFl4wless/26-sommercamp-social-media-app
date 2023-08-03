@@ -32,16 +32,44 @@
             </div>
             <p class="article-content mt-3 fs-5">{{ post.content }}</p>
             <div class="rounded-3">
-                <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="mw-100 rounded-3">
+                {% if post.file|check_file_type:post.file == ".mp4" %}
+                    <video width="320" height="240" controls>
+                        <source src="/media/{{ post.file }}" type="video/mp4">
+                        <source src="/media/{{ post.file }}" type="video/oog">
+                    </video>
+                {% endif %}
+                {% if post.file|check_file_type:post.file == ".png" %}
+                    <img src="/media/{{ post.file }}" alt="{{ post.image }}" class="mw-100 rounded-3">
+                {% endif %}
+                {% if post.file|check_file_type:post.file == ".mp3" %}
+                    <audio controls>
+                        <source src="/media/{{ post.file }}">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+
             </div>
 
             <hr/>
 
             <div>
+                {% for tag in post|get_tags:post %}
+                    <a class="text-decoration-none" href="/search?q={{ tag }}"> <span class="badge bg-primary">
+                            {{ tag }}
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+
+
+
+            <div>
                 <div class="d-flex flex-column gap-2 my-3">
                     <h3 class="fw-semibold">Comments</h3>
                     {% for comment in post|get_comments:post %}
-                        <div class="d-flex gap-3 bg-secondary p-3 rounded-3">
+                        <form method="POST" action="{% url 'delete-comment' %}" class="d-grid align-items-center gap-2" style="grid-template-columns: 1fr min-content">
+                            {% csrf_token %}
+                            <div class="d-flex gap-3 bg-secondary p-3 rounded-3">
                             <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
                                  alt="Avatar of {{ comment.author.username }}"
                                  class="rounded-circle border border-dark">
@@ -50,7 +78,14 @@
                                 <p class="fw-bold">{{ comment.author.username }}</p>
                                 <p>{{ comment.content }}</p>
                             </div>
-                        </div>
+                            {% if user == comment.author or user == post.author %}
+                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <input type="hidden" name="post_author_id" value="{{ post.author.id }}">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                            {% endif %}
+                        </form>
+
                     {% endfor %}
                 </div>
 
@@ -67,7 +102,7 @@
                             </label>
 
                             <input type="hidden" name="post_id" value="{{ post.id }}">
-                            <input type="hidden" name="post_author" value="{{ post.author.id }}">
+                            <input type="hidden" name="comment_author" value="{{ user.id }}">
 
                             <div class="form-group">
                                 <button class="btn btn-outline-primary btn-sm" type="submit">
@@ -83,14 +118,6 @@
             <hr/>
 
             <div class="d-flex justify-content-between">
-                <div>
-                    {% for tag in post|get_tags:post %}
-                        <span class="badge bg-primary">
-                        {{ tag }}
-                    </span>
-                    {% endfor %}
-                </div>
-
                 <div class="d-flex gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="m-0 py-1">{{ post.like_set.count }}</p>

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'likes.apps.LikesConfig',
+    'followers.apps.FollowersConfig',
     'dislikes.apps.DislikesConfig',
     'comment.apps.CommentConfig',
     'crispy_forms',
