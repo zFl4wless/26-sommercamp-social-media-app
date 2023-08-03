@@ -34,26 +34,7 @@
 
             <hr/>
 
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="m-0 py-1">Likes: {{ post.like_set.count }}</p>
-
-                {% if user.username %}
-                    <form action="/like-post" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="post_id" value="{{ post.id }}">
-                        <input type="hidden" name="user_id" value="{{ user.id }}">
-
-                        <button class="bg-transparent border-0" type="submit">
-                            <i class="fa-regular fa-heart {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
-                        </button>
-                    </form>
-                {% endif %}
-            </div>
-
             <div>
-                <legend class="border-top my-3">
-                    Kommentieren
-                </legend>
                 <div class="d-flex flex-column gap-2 my-3">
                     {% for comment in post|get_comments:post %}
                         <div class="d-flex gap-3 bg-secondary p-3 rounded-2">
@@ -93,6 +74,33 @@
 
                     </fieldset>
                 {% endif %}
+            </div>
+
+            <hr/>
+
+            <div class="d-flex justify-content-between">
+                <div>
+                    {% for tag in post|get_tags:post %}
+                        <span class="badge bg-primary">
+                        {{ tag }}
+                    </span>
+                    {% endfor %}
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="m-0 py-1">{{ post.like_set.count }}</p>
+
+                    {% if user.username %}
+                        <form action="/like-post" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+
+                            <button class="bg-transparent border-0" type="submit">
+                                <i class="fa-regular fa-heart {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </article>

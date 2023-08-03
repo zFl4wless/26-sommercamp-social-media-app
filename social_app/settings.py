@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'taggit',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'likes.apps.LikesConfig',
