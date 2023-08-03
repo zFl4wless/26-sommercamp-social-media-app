@@ -31,7 +31,8 @@ def view_user(request, username: str):
     user_posts = Post.objects.filter(author=user).order_by('-date_posted')
     context = {
         "profile": profile,
-        "posts": user_posts
+        "posts": user_posts,
+        'title': user.username
     }
 
     return render(request, 'users/profile_page.html', context=context)
