@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 from blog.models import Post
+from dislikes.models import Dislike
 from likes.models import Like
 
 
@@ -25,6 +26,10 @@ def like_post(request):
         if user_liked.exists():
             user_liked.delete()
             return redirect(request.META['HTTP_REFERER'])
+
+        user_disliked = Dislike.objects.filter(post=post, author=user)
+        if user_disliked.exists():
+            user_disliked.delete()
 
         Like.objects.create(post=post, author=user)
 
