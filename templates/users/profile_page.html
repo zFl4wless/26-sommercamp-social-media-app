@@ -34,10 +34,13 @@
                 </form>
             {% endif %}
         </div>
-        <hr class="text-white">
+
+        <p class="text-primary text-uppercase m-0 mb-1 fw-medium">Biography</p>
         <p class="text-white">
             {{ profile.bio }}
         </p>
+
+        <hr class="text-white">
     </div>
 
     {% if user == profile.user %}
