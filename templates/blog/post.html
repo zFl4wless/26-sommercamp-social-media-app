@@ -6,12 +6,12 @@
             <div class="d-flex justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between">
-                        <a class="mr-2 mt-0 mb-0  text-dark" href="{% url 'user-profile' post.author.username %}">
-                            <h3>{{ post.author }}</h3>
+                        <a class="d-flex align-items-center gap-2 mt-0 mb-0 text-dark" href="{% url 'user-profile' post.author.username %}">
+                            <img width="38px" height="38px" src="{{ post.author.profile.image.url }}"
+                                 alt="Avatar of {{ post.author.username }}"
+                                 class="rounded-circle border border-dark">
+                            <h3 class="m-0 fw-semibold">{{ post.author }}</h3>
                         </a>
-                    </div>
-                    <div>
-                        <small class="text-muted">{{ post.date_posted }}</small>
                     </div>
                 </div>
                 {% if post.author == user %}
@@ -26,18 +26,22 @@
 
             <hr>
 
-            <h2>{{ post.title }}</h2>
-            <p class="article-content">{{ post.content }}</p>
+            <h2 class="fw-bold">{{ post.title }}</h2>
+            <div class="mt-1">
+                <small class="text-muted">posted on {{ post.date_posted }}</small>
+            </div>
+            <p class="article-content mt-3 fs-5">{{ post.content }}</p>
             <div class="rounded-3">
-                <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="mw-100">
+                <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="mw-100 rounded-3">
             </div>
 
             <hr/>
 
             <div>
                 <div class="d-flex flex-column gap-2 my-3">
+                    <h3 class="fw-semibold">Comments</h3>
                     {% for comment in post|get_comments:post %}
-                        <div class="d-flex gap-3 bg-secondary p-3 rounded-2">
+                        <div class="d-flex gap-3 bg-secondary p-3 rounded-3">
                             <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
                                  alt="Avatar of {{ comment.author.username }}"
                                  class="rounded-circle border border-dark">
@@ -101,6 +105,10 @@
                                     <i class="fa-solid fa-thumbs-up {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
                                 </button>
                             </form>
+                        {% else %}
+                            <button class="bg-transparent border-0 user-select-none pe-none">
+                                <i class="fa-solid fa-thumbs-up text-secondary user-select-none"></i>
+                            </button>
                         {% endif %}
                     </div>
 
@@ -117,6 +125,10 @@
                                     <i class="fa-solid fa-thumbs-down {% if post|user_disliked_post:user.id %}text-danger{% endif %}"></i>
                                 </button>
                             </form>
+                        {% else %}
+                            <button class="bg-transparent border-0 user-select-none pe-none">
+                                <i class="fa-solid fa-thumbs-down text-secondary user-select-none"></i>
+                            </button>
                         {% endif %}
                     </div>
                 </div>
