@@ -1,10 +1,7 @@
-import datetime
-import time
-
 from django import template
 from taggit.models import Tag
 
-from blog.models import Post
+from followers.models import Follower
 
 register = template.Library()
 
@@ -22,6 +19,22 @@ def user_disliked_post(post, user_id):
 @register.filter
 def get_comments(_, post):
     return post.comment_set.filter(post_id=post.id)
+
+
+@register.filter
+def get_followers_count(_, profile):
+    return Follower.objects.filter(followed_user_id=profile.user.id).count()
+
+
+@register.filter
+def get_followers(_, profile):
+    follower_values = Follower.objects.filter(followed_user_id=profile.user.id).values_list('follower_id')
+
+    def map_follower(follower):
+        print(follower)
+        return follower[0]
+
+    return list(map(map_follower, follower_values))
 
 
 @register.filter
