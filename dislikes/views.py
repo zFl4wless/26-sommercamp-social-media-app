@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 
 from blog.models import Post
 from dislikes.models import Dislike
+from likes.models import Like
 
 
 def dislike_post(request):
@@ -25,6 +26,10 @@ def dislike_post(request):
         if user_disliked.exists():
             user_disliked.delete()
             return redirect(request.META['HTTP_REFERER'])
+
+        user_liked = Like.objects.filter(post=post, author=user)
+        if user_liked.exists():
+            user_liked.delete()
 
         Dislike.objects.create(post=post, author=user)
 
