@@ -9,11 +9,29 @@
                      src="{{ profile.image.url }}" alt="User Avatar">
                 <h1 class="text-white mt-3">{{ profile.user.username }}</h1>
                 <p class="text-white-50 fs-6">{{ post|formatted_join_date:profile }}</p>
+                <p class="text-white">{{ post|get_followers_count:profile }} Followers</p>
             </div>
+
             {% if profile.user == user %}
                 <div>
                     <a class="btn btn-secondary" href="{% url 'profile-update' %}">Update Profile</a>
                 </div>
+            {% else %}
+                <form action="/follow-user" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ profile.user.id }}">
+                    <input type="hidden" name="follower_id" value="{{ user.id }}">
+
+                    {% if user.id in post|get_followers:profile %}
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa-solid fa-user-minus"></i> Unfollow
+                        </button>
+                    {% else %}
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa-solid fa-user-plus"></i> Follow
+                        </button>
+                    {% endif %}
+                </form>
             {% endif %}
         </div>
         <hr class="text-white">
