@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="d-sm-flex align-items-center text-center justify-content-center me-5">
+        <h1 class="fs-1 text-white text-center m-0 me-2" style="font-size: 60px !important;"><b>Welcome to</b></h1>
+        <img class="pb-1" src="/media/font_white.png" width="150">
+    </div>
+    <hr class="text-white border-2 rounded-4">
+    <div class="pt-5">
+        <h1 class="text-white">Recent posts:</h1>
+    </div>
+
     {% for post in posts %}
         {% include "blog/post.html" with post=post %}
     {% endfor %}
