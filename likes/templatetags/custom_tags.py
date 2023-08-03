@@ -1,4 +1,5 @@
 import datetime
+import os
 import time
 
 from django import template
@@ -27,3 +28,9 @@ def formatted_join_date(_, profile):
 @register.filter
 def get_tags(_, post):
     return Tag.objects.filter(post=post.id)
+
+
+@register.filter
+def check_file_type(_, url):
+    name, extension = os.path.splitext(url.file.name)
+    return extension
