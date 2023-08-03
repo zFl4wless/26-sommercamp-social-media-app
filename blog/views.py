@@ -11,6 +11,7 @@ from django.views.generic import (
 )
 
 from comment.models import Comment
+from followers.models import Follower
 from likes.models import Like
 from .models import Post
 
@@ -31,7 +32,8 @@ def search(request):
     query = request.GET.get('q')
 
     result = Post.objects.filter(
-        Q(title__icontains=query) | Q(author__username__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)).distinct()
+        Q(title__icontains=query) | Q(author__username__icontains=query) | Q(content__icontains=query) | Q(
+            tags__name__icontains=query)).distinct()
 
     context = {'posts': result}
     return render(request, template, context)
@@ -43,6 +45,16 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 4
+
+
+def followed_user_posts(request):
+    def map_follower(follower):
+        return follower[0]
+
+    follower_ids = list(map(map_follower, Follower.objects.filter(follower=request.user).values_list('followed_user')))
+    posts = Post.objects.filter(author__in=User.objects.filter(id__in=follower_ids)).order_by('-date_posted')
+
+    return render(request, 'blog/home.html', {'posts': posts})
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):

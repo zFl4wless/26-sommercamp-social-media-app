@@ -5,10 +5,24 @@
         <h1 class="fs-1 text-white text-center m-0 me-2" style="font-size: 60px !important;"><b>Welcome to</b></h1>
         <img class="pb-1" src="/media/font_white.png" width="150">
     </div>
-    <hr class="text-white border-2 rounded-4">
-    <div class="pt-5">
-        <h1 class="text-white">Recent posts:</h1>
-    </div>
+    {% if user.is_authenticated %}
+        <ul class="nav nav-tabs justify-content-left">
+            <li class="nav-item rounded-1 {% if request.resolver_match.url_name == 'blog-home' %}bg-white{% endif %}">
+                <a class="nav-link"
+                   aria-current="page"
+                   href="{% url 'blog-home' %}">
+                    Recent Posts
+                </a>
+            </li>
+            <li class="nav-item rounded-1 {% if request.resolver_match.url_name == 'blog-followers' %}bg-white{% endif %}">
+                <a class="nav-link"
+                   aria-current="page"
+                   href="{% url 'blog-followers' %}">
+                    Follower Posts
+                </a>
+            </li>
+        </ul>
+    {% endif %}
 
     {% for post in posts %}
         {% include "blog/post.html" with post=post %}
