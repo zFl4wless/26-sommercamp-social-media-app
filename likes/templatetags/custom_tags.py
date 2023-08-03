@@ -20,7 +20,7 @@ def user_disliked_post(post, user_id):
 
 @register.filter
 def get_comments(_, post):
-    return post.comment_set.filter(post_id=post.id)
+    return post.comment_set.filter(post_id=post.id).order_by('-date_posted')
 
 
 @register.filter
@@ -33,7 +33,6 @@ def get_followers(_, profile):
     follower_values = Follower.objects.filter(followed_user_id=profile.user.id).values_list('follower_id')
 
     def map_follower(follower):
-        print(follower)
         return follower[0]
 
     return list(map(map_follower, follower_values))

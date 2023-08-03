@@ -52,75 +52,16 @@
 
             <hr/>
 
-            <div>
-                {% for tag in post|get_tags:post %}
-                    <a class="text-decoration-none" href="/search?q={{ tag }}"> <span class="badge bg-primary">
-                            {{ tag }}
-                        </span>
-                    </a>
-                {% endfor %}
-            </div>
-
-
-
-            <div>
-                <div class="d-flex flex-column gap-2 my-3">
-                    <h3 class="fw-semibold">Comments</h3>
-                    {% for comment in post|get_comments:post %}
-                        <form method="POST" action="{% url 'delete-comment' %}" class="position-relative">
-                            {% csrf_token %}
-                            <div class="text-black d-flex gap-3 p-3 rounded-3" style="background-color: #DAE3E7">
-                                <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
-                                    alt="Avatar of {{ comment.author.username }}"
-                                    class="rounded-circle border border-dark">
-                                <div>
-                                    <p class="fw-bold">{{ comment.author.username }}</p>
-                                    <p class="text-black-50 m-0">{{ comment.date_posted }}</p>
-                                    <p class="text-break">{{ comment.content }}</p>
-                                </div>
-                            </div>
-                            {% if user == comment.author or user == post.author %}
-                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                <input type="hidden" name="user_id" value="{{ user.id }}">
-                                <input type="hidden" name="post_author_id" value="{{ post.author.id }}">
-                                <button type="submit" class="btn btn-danger position-absolute top-0 end-0 mt-2 me-2 rounded-3">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            {% endif %}
-                        </form>
-
+            <div class="d-flex justify-content-between">
+                <div>
+                    {% for tag in post|get_tags:post %}
+                        <a class="text-decoration-none" href="/search?q={{ tag }}"> <span class="badge bg-primary">
+                                {{ tag }}
+                            </span>
+                        </a>
                     {% endfor %}
                 </div>
 
-                {% if user.is_authenticated %}
-                    <fieldset class="form-group">
-
-                        <form action="{% url 'send-comment' %}" method="POST" class="d-flex align-items-center gap-2">
-                            {% csrf_token %}
-
-                            <label for="content">
-                                <textarea type="text" id="content" name="content" placeholder="Comment..."
-                                          class="border-0 border-bottom border-dark"
-                                          style="outline: none !important;" rows="2" cols="80"></textarea>
-                            </label>
-
-                            <input type="hidden" name="post_id" value="{{ post.id }}">
-                            <input type="hidden" name="comment_author" value="{{ user.id }}">
-
-                            <div class="form-group">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">
-                                    <i class="fas fa-upload"></i> Send
-                                </button>
-                            </div>
-                        </form>
-
-                    </fieldset>
-                {% endif %}
-            </div>
-
-            <hr/>
-
-            <div class="d-flex justify-content-between">
                 <div class="d-flex gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="m-0 py-1">{{ post.like_set.count }}</p>
@@ -162,6 +103,70 @@
                         {% endif %}
                     </div>
                 </div>
+            </div>
+
+            <div>
+                <div class="d-flex flex-column gap-2 my-3">
+                    <h3 class="fw-semibold">Comments</h3>
+                    {% if user.is_authenticated %}
+                        <fieldset class="form-group mb-4">
+
+                            <form action="{% url 'send-comment' %}" method="POST" class="d-flex align-items-end gap-2">
+                                {% csrf_token %}
+
+                                <label for="content">
+                                    <textarea type="text" id="content" name="content" placeholder="Comment something..."
+                                              class="border-0 border-bottom border-dark"
+                                              style="outline: none !important;" rows="2" cols="80"></textarea>
+                                </label>
+
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <input type="hidden" name="comment_author" value="{{ user.id }}">
+
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary btn-sm" type="submit">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </fieldset>
+                    {% endif %}
+                    {% for comment in post|get_comments:post %}
+                        <form method="POST" action="{% url 'delete-comment' %}" class="position-relative">
+                            {% csrf_token %}
+                            <div class="text-black d-flex gap-3 p-3 rounded-3" style="background-color: #DAE3E7">
+                                <a href="{% url 'user-profile' comment.author.username %}" class="text-decoration-none text-dark">
+                                    <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
+                                        alt="Avatar of {{ comment.author.username }}"
+                                        class="rounded-circle border border-dark">
+                                </a>
+                                <div>
+                                    <a href="{% url 'user-profile' comment.author.username %}" class="text-decoration-none text-dark">
+                                        <p class="fw-bold">{{ comment.author.username }}</p>
+                                    </a>
+                                    <p class="text-black-50 m-0">{{ comment.date_posted }}</p>
+                                    <p class="text-break">{{ comment.content }}</p>
+                                </div>
+                            </div>
+                            {% if user == comment.author or user == post.author %}
+                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <input type="hidden" name="post_author_id" value="{{ post.author.id }}">
+                                <button type="submit" class="btn btn-danger position-absolute top-0 end-0 mt-2 me-2 rounded-3">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            {% endif %}
+                        </form>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="d-flex justify-content-between">
+
             </div>
         </div>
     </article>
