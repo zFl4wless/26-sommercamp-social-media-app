@@ -15,6 +15,11 @@ def user_liked_post(post, user_id):
 
 
 @register.filter
+def user_disliked_post(post, user_id):
+    return post.dislike_set.filter(author=user_id).exists()
+
+
+@register.filter
 def get_comments(_, post):
     return post.comment_set.filter(post_id=post.id)
 

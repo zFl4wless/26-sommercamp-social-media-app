@@ -12,20 +12,24 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'main.css' %}">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+
     {% if title %}
-        <title>Programmable - {{ title }}</title>
+        <title>coal - {{ title }}</title>
     {% else %}
-        <title>Programmable</title>
+        <title>coal</title>
     {% endif %}
 
 </head>
 
-<body class="bg-dark">Here
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary fixed-top">
+<body style="font-family: 'Montserrat', sans-serif" class="bg-dark">Here
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary fixed-top p-0">
     <div class="container-fluid d-flex justify-content-between">
         <a class="navbar-brand font-weight-bold" href="{% url 'blog-home' %}">
-            <i class="fa-solid fa-hat-wizard"></i>
-            #programmable
+            <img src="/media/logo_white.png" alt="logo_white" width="140">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,11 +56,11 @@
                         <i class="fa-solid fa-pen-to-square"></i> New Post
                     </a>
                 {% else %}
-                    <a href="{% url 'login' %} " class="btn text-white m-2">
-                        <i class="fas fa-user-tie"></i> Login
+                    <a href="{% url 'login' %} " class="btn text-white m-2 bg-primary rounded-3">
+                        <i class="fas fa-sign-in-alt"></i> Login
                     </a>
-                    <a href="{% url 'register' %} " class="btn text-white m-2">
-                        <i class="fas fa-sign-in-alt"></i> Sign Up
+                    <a href="{% url 'register' %} " class="btn text-white m-2 bg-primary rounded-3">
+                        <i class="fa-solid fa-user-plus"></i> Sign Up
                     </a>
                 {% endif %}
             </div>
