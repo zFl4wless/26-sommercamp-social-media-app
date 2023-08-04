@@ -153,12 +153,11 @@
                                 {% if user == comment.author %}
                                     <input type="hidden" name="comment_id" value="{{ comment.id }}">
                                     <input type="hidden" name="user_id" value="{{ user.id }}">
-                                    <button name="submitJs" id="comment_{{ comment.id }}_submitJs" class="btn btn-primary rounded-3">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button name="saveChanges" id="comment_{{ comment.id }}_save_changes" class="btn btn-primary rounded-3 d-none">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
+                                    <a href="/edit-comment">
+                                        <button class="btn btn-primary rounded-3">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
 
                                 {% endif %}
                                 <form method="POST" action="{% url 'delete-comment' %}">
