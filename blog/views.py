@@ -91,4 +91,4 @@ def privacypolicy(request):
     return render(request, 'privacy-policy.html', {'title': 'Privacy Policy'})
 
 def imprint(request):
-    return render(request, 'imprint.html', {'title': 'imprint'})
+    return render(request, 'imprint.html', {'title': 'Imprint'})
