@@ -153,7 +153,7 @@
                                 {% if user == comment.author %}
                                     <input type="hidden" name="comment_id" value="{{ comment.id }}">
                                     <input type="hidden" name="user_id" value="{{ user.id }}">
-                                    <a href="/edit-comment">
+                                    <a href="/edit-comment/{{ comment.id }}">
                                         <button class="btn btn-primary rounded-3">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>

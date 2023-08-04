@@ -46,9 +46,14 @@ def delete_comment(request):
         return redirect('/')
 
 
-def edit_comment(request):
+def edit_comment(request, pk):
 
-    comment_form = CommentForm()
+    comment_form = CommentForm(request.POST, instance=request.content)
+    comment_id = pk
+
+    entry = Comment.objects.get(id=comment_id)
+    entry.content = comment_form['content']
+    entry.save()
 
     return render(request, 'comment/update_comment.html', {"comment_form": comment_form})
 
