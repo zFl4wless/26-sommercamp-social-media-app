@@ -73,7 +73,7 @@
                                 <input type="hidden" name="user_id" value="{{ user.id }}">
 
                                 <button class="bg-transparent border-0" type="submit">
-                                    <i class="fa-solid fa-thumbs-up {% if post|user_liked_post:user.id %}text-danger{% endif %}"></i>
+                                    <i class="fa-solid fa-thumbs-up {% if post|user_liked_post:user.id %}text-primary{% endif %}"></i>
                                 </button>
                             </form>
                         {% else %}
@@ -93,7 +93,7 @@
                                 <input type="hidden" name="user_id" value="{{ user.id }}">
 
                                 <button class="bg-transparent border-0" type="submit">
-                                    <i class="fa-solid fa-thumbs-down {% if post|user_disliked_post:user.id %}text-danger{% endif %}"></i>
+                                    <i class="fa-solid fa-thumbs-down {% if post|user_disliked_post:user.id %}text-primary{% endif %}"></i>
                                 </button>
                             </form>
                         {% else %}
@@ -133,8 +133,7 @@
                         </fieldset>
                     {% endif %}
                     {% for comment in post|get_comments:post %}
-                        <form method="POST" action="{% url 'delete-comment' %}" class="position-relative">
-                            {% csrf_token %}
+                        <div class="position-relative">
                             <div class="text-black d-flex gap-3 p-3 rounded-3" style="background-color: #DAE3E7">
                                 <a href="{% url 'user-profile' comment.author.username %}" class="text-decoration-none text-dark">
                                     <img width="38px" height="38px" src="{{ comment.author.profile.image.url }}"
@@ -146,27 +145,37 @@
                                         <p class="fw-bold">{{ comment.author.username }}</p>
                                     </a>
                                     <p class="text-black-50 m-0">{{ comment.date_posted }}</p>
-                                    <p class="text-break">{{ comment.content }}</p>
+                                    <p id="comment_{{ comment.id }}_content" class="text-break">{{ comment.content }}</p>
                                 </div>
                             </div>
-                            {% if user == comment.author or user == post.author %}
-                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                <input type="hidden" name="user_id" value="{{ user.id }}">
-                                <input type="hidden" name="post_author_id" value="{{ post.author.id }}">
-                                <button type="submit" class="btn btn-danger position-absolute top-0 end-0 mt-2 me-2 rounded-3">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            {% endif %}
-                        </form>
+                            <div class="position-absolute top-0 end-0 mt-2 me-2 d-flex gap-2">
+                                {% csrf_token %}
+                                {% if user == comment.author %}
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <a href="/edit-comment">
+                                        <button class="btn btn-primary rounded-3">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+
+                                {% endif %}
+                                <form method="POST" action="{% url 'delete-comment' %}">
+                                    {% csrf_token %}
+                                    {% if user == comment.author or user == post.author %}
+                                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <input type="hidden" name="post_author_id" value="{{ post.author.id }}">
+                                        <button type="submit" class="btn btn-danger rounded-3">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
 
                     {% endfor %}
                 </div>
-            </div>
-
-            <hr/>
-
-            <div class="d-flex justify-content-between">
-
             </div>
         </div>
     </article>
